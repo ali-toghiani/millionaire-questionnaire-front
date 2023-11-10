@@ -1,4 +1,4 @@
 export enum AuthorizationEnum {
   LOGIN = 'login',
-  SING_UP = 'signup'
+  SING_UP = 'sign_up'
 }

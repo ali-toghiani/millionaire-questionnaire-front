@@ -1,5 +1,54 @@
-<div class="ps-w-[360px] ps-border-blue-100 ps-border-[1px] ps-h-[100px]
+<div class="ps-w-[360px] ps-pb-[30px] ps-px-[15px]
             ps-bg-white ps-rounded-xl
             ps-flex ps-flex-col ps-items-center">
-  <h1></h1>
+  <h1 class="ps-text-2xl ps-font-bold ps-mt-[15px]">
+    {{ ('authorization.' + mode) | translate }}
+  </h1>
+
+  <form class="ps-w-full ps-mt-[20px]"
+        [formGroup]="form" (ngSubmit)="submit()">
+
+
+    <nz-form-item class="ps-w-full">
+      <nz-form-control class="ps-w-full" nzErrorTip="The input is not valid E-mail!">
+        <input nz-input
+               placeholder="Email"
+               formControlName="email" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-input-group [nzSuffix]="suffixTemplate">
+      <input
+        [type]="passwordVisible ? 'text' : 'password'"
+        nz-input
+        placeholder="input password"
+        formControlName="password"
+      />
+    </nz-input-group>
+    <ng-template #suffixTemplate>
+      <span
+        nz-icon
+        [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+        (click)="passwordVisible = !passwordVisible"
+      ></span>
+    </ng-template>
+
+    <a class="ps-font-extralight ps-mt-[30px] ps-text-center ps-block"
+        (click)="switchMode()">
+      {{
+      mode === authorizationMethod.SING_UP ?
+            ('authorization.already_have_an_account' | translate) :
+              ('authorization.dont_have_an_account' | translate)
+      }}
+    </a>
+
+    <button class="ps-mt-[10px] ps-mx-auto ps-flex"
+            [disabled]="form.invalid"
+            (click)="submit()"
+            [nzLoading]="isLoading"
+            nz-button
+            nzType="primary">
+      Submit
+    </button>
+  </form>
 </div>

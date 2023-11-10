@@ -2,6 +2,8 @@
   "title": "Who wants to be a millionaire",
   "authorization": {
     "login": "Login",
-    "sign_up": "Sign Up"
+    "sign_up": "Sign Up",
+    "already_have_an_account": "Already Have an Account ? Login!",
+    "dont_have_an_account": "Don't Have an Account yet? Sign up!"
   }
 }
