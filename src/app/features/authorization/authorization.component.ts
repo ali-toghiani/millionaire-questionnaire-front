@@ -9,7 +9,7 @@ import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {AuthorizationHttpService} from "./services/authorization-http.service";
 import {finalize, Subscription} from "rxjs";
-import {UserModel} from "./model/user.model";
+import { UserModel } from "../../models/user.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {environmet} from "../../environments/environment-dev";
 import {Router} from "@angular/router";
@@ -91,8 +91,19 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     }
   }
   signup(): void {
+    const { email, password } = this.form.value;const min = 1000; // Minimum 4-digit number
+    const max = 9999; // Maximum 4-digit number
+
+    const random4DigitNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    const data = {
+      id: random4DigitNumber.toString(),
+      email,
+      password,
+      scores: []
+    }
     this.subscriptions.add(
-      this.httpService.signup( this.form.value as UserModel)
+      this.httpService.signup( data as UserModel)
         .pipe(
           finalize(()=> {this.isLoading = false;})
         )
@@ -130,6 +141,7 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
                 'You Are being redirected ...'
               )
               localStorage.setItem( environmet.localStorageAuthorizationKey, 'true');
+              localStorage.setItem( 'user', JSON.stringify(res));
               this.router.navigate(['/' + FeaturesPathsEnum.QUESTIONS]);
             },
             error: err => {
