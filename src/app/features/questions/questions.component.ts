@@ -93,7 +93,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
     const uniqueNumbers: Set<number> = new Set();
 
     while (uniqueNumbers.size < count) {
-      const randomNumber = Math.floor(Math.random() * (maxNumber + 1));
+      const randomNumber = Math.floor(Math.random() * (maxNumber - 1) + 2);
       uniqueNumbers.add(randomNumber);
     }
 
