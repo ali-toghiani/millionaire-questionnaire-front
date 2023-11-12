@@ -1,0 +1,75 @@
+<button class="ps-mt-[30px] ps-mx-auto ps-flex"
+        nz-button
+        [routerLink]="'/questions'"
+        nzType="default">
+  Go Back To the Game
+</button>
+
+
+<form class="ps-w-[350px] ps-mt-[20px] ps-bg-white ps-rounded-xl ps-p-[20px]"
+      [formGroup]="form">
+
+
+  <nz-form-item class="ps-w-full">
+    <nz-form-control class="ps-w-full" nzErrorTip="Title Is Required">
+      <textarea nz-input
+             [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+             placeholder="title"
+                formControlName="title">
+      </textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item class="ps-w-full">
+    <nz-form-control class="ps-w-full" nzErrorTip="The input is not valid E-mail!">
+      <input nz-input
+             type="number"
+             min="5"
+             max="20"
+             placeholder="Point"
+             formControlName="point" />
+    </nz-form-control>
+  </nz-form-item>
+
+
+  <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+    <input type="text"
+           nz-input
+           placeholder="Answer title"
+           formControlName="answer"/>
+
+  </nz-input-group>
+  <ng-template #suffixIconButton>
+    <button nz-button nzType="primary" nzSearch (click)="addAnswer()">
+      <span nz-icon nzType="plus" nzTheme="outline"></span>
+    </button>
+  </ng-template>
+
+  <nz-checkbox-wrapper class="ps-w-full"
+                       (nzOnChange)="saveAnserIds($event)">
+    <label class="ps-w-full !ps-ml-0 ps-my-[10px]"
+           *ngFor="let answer of form.controls.answers.value; let i = index"
+           [nzValue]="i"
+           nz-checkbox>
+
+      <span class="ps-flex ps-items-center ps-gap-[10px]">
+        {{answer}}
+
+        <span (click)="deleteAnswer(i)"
+              nz-icon
+              nzType="delete"
+              nzTheme="outline"
+              style="color:red">
+            </span>
+      </span>
+
+    </label>
+  </nz-checkbox-wrapper>
+
+  <button class="ps-mt-[30px] ps-mx-auto ps-flex"
+          (click)="submit()"
+          nz-button
+          nzType="primary">
+    Save
+  </button>
+</form>

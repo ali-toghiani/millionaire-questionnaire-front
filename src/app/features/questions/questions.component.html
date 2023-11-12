@@ -10,25 +10,76 @@
     Total Score: {{score}}
   </div>
 
-  <div class="ps-mt-[20px]" *ngIf="question">
-    <nz-card [nzTitle]="question.title">
-      <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="updateSelectedAnswerIds($event)">
-        <label *ngFor="let answer of question.answers"
-               [nzValue]="answer.id"
-               nz-checkbox>
-          {{answer.label}}
-        </label>
-      </nz-checkbox-wrapper>
-
-    </nz-card>
+  <div class="previous-scores ps-text-gold ps-mt-[20px] ps-text-center">
+    Previous Scores: {{ user.scores }}
   </div>
 
 
-  <button class="ps-mt-[10px] ps-mx-auto ps-flex"
-          (click)="actionClicked()"
-          [nzLoading]="isLoading"
+  <button class="ps-mt-[30px] ps-mx-auto ps-flex"
+          (click)="replay()"
           nz-button
-          nzType="primary">
-    Submit
+          [routerLink]="'/questions/add'"
+          nzType="dashed">
+    Add New Question +
   </button>
+
+  <div class="ps-mt-[20px]" *ngIf="question">
+    <nz-card class=" ps-min-w-[360px]"
+             *ngIf="!isFinishedGame else finishTemplate"
+             [nzTitle]="question.title">
+      <nz-checkbox-wrapper class="ps-w-full"
+                           (nzOnChange)="updateSelectedAnswerIds($event)">
+        <label class="ps-w-full !ps-ml-0 ps-my-[10px]"
+               *ngFor="let answer of question.answers"
+               [nzValue]="answer.id"
+               [nzDisabled]="isReviewMode"
+               nz-checkbox>
+          {{answer.label}}
+          <ng-container *ngIf="answer.status"
+                        [ngSwitch]="answer.status">
+
+            <ng-container *ngSwitchCase="answerStatusEnum.CORRECT_SELECTED">
+              <span nz-icon nzType="check-circle" nzTheme="outline" style="color:green"></span>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="answerStatusEnum.CORRECT_UNSELECTED">
+              <span nz-icon nzType="check-circle" nzTheme="outline" style="color:blue"></span>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="answerStatusEnum.INCORRECT">
+              <span nz-icon nzType="close-circle" nzTheme="outline" style="color:red"></span>
+            </ng-container>
+
+          </ng-container>
+        </label>
+      </nz-checkbox-wrapper>
+
+
+      <button class="ps-mt-[30px] ps-mx-auto ps-flex"
+              (click)="actionClicked()"
+              [nzLoading]="isLoading"
+              nz-button
+              [nzDanger]="!isReviewMode"
+              nzType="primary">
+        {{ isReviewMode ? 'Next Question' : 'Check Answers' }}
+      </button>
+    </nz-card>
+
+    <ng-template #finishTemplate>
+      <div class="ps-flex ps-flex-col ps-justify-center">
+        <span class="ps-font-bold ps-text-center">
+        {{ score < maxScore ? 'You Lost, Try Again' : 'Congratulations You won 1,000,000 Rials, its worth like 50$ >:) ' }}
+      </span>
+
+
+        <button class="ps-mt-[30px] ps-mx-auto ps-flex"
+                (click)="replay()"
+                nz-button
+                nzType="primary">
+          Replay
+        </button>
+      </div>
+    </ng-template>
+  </div>
+
 </div>
