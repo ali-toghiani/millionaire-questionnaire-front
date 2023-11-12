@@ -11,6 +11,9 @@ import {AuthorizationHttpService} from "./services/authorization-http.service";
 import {finalize, Subscription} from "rxjs";
 import {UserModel} from "./model/user.model";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {environmet} from "../../environments/environment-dev";
+import {Router} from "@angular/router";
+import {FeaturesPathsEnum} from "../../enums/features-paths.enum";
 
 @Component({
   selector: 'app-authorization',
@@ -48,9 +51,14 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     })
 
   })
+
+  subscriptions = new Subscription();
+
+
   constructor(
     private httpService: AuthorizationHttpService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private router: Router
   ) {
   }
 
@@ -60,8 +68,6 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
-
-  subscriptions = new Subscription();
 
   get authorizationMethod(): typeof AuthorizationEnum {
     return AuthorizationEnum
@@ -123,7 +129,8 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
                 'Login Succeeded',
                 'You Are being redirected ...'
               )
-
+              localStorage.setItem( environmet.localStorageAuthorizationKey, 'true');
+              this.router.navigate(['/' + FeaturesPathsEnum.QUESTIONS]);
             },
             error: err => {
               this.createNotification('error',

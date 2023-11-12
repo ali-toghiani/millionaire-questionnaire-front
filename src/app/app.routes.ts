@@ -10,5 +10,9 @@ export const routes: Routes = [
   {
     path: FeaturesPathsEnum.AUTHORIZATION,
     loadChildren: () => import('./features/authorization/authorization.module').then(m => m.AuthorizationModule)
+  },
+  {
+    path: FeaturesPathsEnum.QUESTIONS,
+    loadChildren: () => import('./features/questions/questions.module').then(m => m.QuestionsModule)
   }
 ];

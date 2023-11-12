@@ -1,3 +1,4 @@
 export enum FeaturesPathsEnum {
-  AUTHORIZATION = 'authorization'
+  AUTHORIZATION = 'authorization',
+  QUESTIONS = 'questions'
 }

@@ -1,0 +1,34 @@
+
+<div class="question-container ps-w-full ps-max-w-[500px] ps-flex ps-flex-col">
+
+
+  <div class="round-container ps-text-purple ps-text-center">
+    Round: {{round}}
+  </div>
+
+  <div class="round-container ps-text-tahiti ps-text-center ps-mt-[20px]">
+    Total Score: {{score}}
+  </div>
+
+  <div class="ps-mt-[20px]" *ngIf="question">
+    <nz-card [nzTitle]="question.title">
+      <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="updateSelectedAnswerIds($event)">
+        <label *ngFor="let answer of question.answers"
+               [nzValue]="answer.id"
+               nz-checkbox>
+          {{answer.label}}
+        </label>
+      </nz-checkbox-wrapper>
+
+    </nz-card>
+  </div>
+
+
+  <button class="ps-mt-[10px] ps-mx-auto ps-flex"
+          (click)="actionClicked()"
+          [nzLoading]="isLoading"
+          nz-button
+          nzType="primary">
+    Submit
+  </button>
+</div>
