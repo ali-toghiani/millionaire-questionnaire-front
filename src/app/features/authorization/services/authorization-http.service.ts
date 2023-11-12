@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {UserModel} from "../model/user.model";
+import { UserModel} from "../../../models/user.model";
 import {environmet} from "../../../environments/environment-dev";
 
 @Injectable({
@@ -18,8 +18,8 @@ export class AuthorizationHttpService {
     return this.http.post( url, userData)
   }
 
-  login( userData: UserModel): Observable<any>{
+  login( userData: UserModel): Observable<UserModel>{
     const url = `${environmet.baseApiUrl}/users`;
-    return this.http.get( url, {params:{...userData}})
+    return this.http.get<UserModel>( url, {params:{...userData}})
   }
 }
